@@ -1,6 +1,5 @@
---find-links https://github.com/pydantic/pydantic/releases/download/v1.10.13
-pydantic==1.10.13
-fastapi==0.104.1
+https://github.com/admragy/prebuilt-wheels/releases/download/v1/fastapi-0.104.1-py3-none-any.whl
+https://github.com/admragy/prebuilt-wheels/releases/download/v1/pydantic-1.10.13-py3-none-any.whl
 uvicorn==0.24.0
 supabase==1.0.3
 requests==2.31.0
