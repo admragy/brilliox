@@ -1,0 +1,27 @@
+/home/user/brilliox-clean/main.py:137: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Will watch for changes in these directories: ['/home/user/brilliox-clean']
+INFO:     Uvicorn running on http://0.0.0.0:5000 (Press CTRL+C to quit)
+INFO:     Started reloader process [1971] using StatReload
+INFO:     Started server process [1974]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+============================================================
+🚀 Brilliox Marketing AI - Starting...
+============================================================
+✅ Clean Code - No Hunter References
+✅ Facebook Ads Solution Ready
+✅ Mobile App PWA Ready
+✅ Multi-platform Support
+============================================================
+📱 Open: http://localhost:5000
+📱 Mobile App: http://localhost:5000/mobile
+📚 API Docs: http://localhost:5000/docs
+============================================================
+INFO:     127.0.0.1:45160 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60184 - "GET / HTTP/1.1" 200 OK
