@@ -469,15 +469,15 @@
         <div class="quick-actions">
             <div class="action-btn" onclick="quickAction('facebook-ads')">
                 <div class="action-icon">📱</div>
-                <div class="action-text">إعلانات Facebook</div>
+                <div class="action-text">إعلانات فيسبوك</div>
             </div>
             <div class="action-btn" onclick="quickAction('ad-copy')">
                 <div class="action-icon">✍️</div>
-                <div class="action-text">إنشاء محتوى إعلاني</div>
+                <div class="action-text">كتابة محتوى</div>
             </div>
             <div class="action-btn" onclick="quickAction('analyze-leads')">
                 <div class="action-icon">📊</div>
-                <div class="action-text">تحليل العملاء</div>
+                <div class="action-text">تحليل عملاء</div>
             </div>
             <div class="action-btn" onclick="quickAction('marketing-tips')">
                 <div class="action-icon">💡</div>
@@ -611,12 +611,15 @@
                 'marketing-tips': 'ما هي أفضل استراتيجيات التسويق الرقمي الحالية؟'
             };
             
-            document.getElementById('chatInput').value = messages[action];
-            sendMessage();
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = messages[action];
+                sendMessage();
+            }
         }
 
         // Send Message
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
@@ -624,8 +627,10 @@
             
             // Show chat area
             document.getElementById('chatMessages').style.display = 'block';
-            document.querySelector('.features-section').style.display = 'none';
-            document.querySelector('.quick-actions').style.display = 'none';
+            const featuresSection = document.querySelector('.features-section');
+            const quickActions = document.querySelector('.quick-actions');
+            if (featuresSection) featuresSection.style.display = 'none';
+            if (quickActions) quickActions.style.display = 'none';
             
             // Add user message
             addMessage(message, 'user');
@@ -633,19 +638,35 @@
             // Clear input
             input.value = '';
             
-            // Simulate AI response
-            setTimeout(() => {
-                addMessage('جاري التفكير...', 'ai', true);
+            // Add loading message
+            addMessage('جاري التفكير...', 'ai', true);
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
                 
-                // Simulate API call
-                setTimeout(() => {
-                    const lastMessage = document.querySelector('.message.ai:last-child');
-                    if (lastMessage) lastMessage.remove();
-                    
-                    const response = getAIResponse(message);
-                    addMessage(response, 'ai');
-                }, 2000);
-            }, 500);
+                const data = await response.json();
+                
+                // Remove loading message
+                const lastMessage = document.querySelector('.message.ai:last-child');
+                if (lastMessage) lastMessage.remove();
+                
+                if (data.success) {
+                    addMessage(data.response, 'ai');
+                } else {
+                    addMessage('عذراً، حدث خطأ في الاتصال بالذكاء الاصطناعي.', 'ai');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const lastMessage = document.querySelector('.message.ai:last-child');
+                if (lastMessage) lastMessage.remove();
+                addMessage('عذراً، حدث خطأ في الشبكة.', 'ai');
+            }
         }
 
         // Add Message to Chat
